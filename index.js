@@ -95,8 +95,9 @@ const questions = [
       type: 'checkbox',
       name: 'licenses',
       message: 'What is the applicable license for your project? ',
-      choices: ['Apache License 2.0', 'Boost Software License 1.0', 'Creative Commons Attribution 4.0',
-                'ISC License', 'MIT License', 'GNU AGPLv3', 'GNU LGPLv3', 'GNU GPLv3', 'GNU GPLv2']
+      // choices: ['Apache License 2.0', 'Boost Software License 1.0', 'Creative Commons Attribution 4.0',
+      //           'ISC License', 'MIT License', 'GNU AGPLv3', 'GNU LGPLv3', 'GNU GPLv3', 'GNU GPLv2']
+      choices: ['Apache License 2.0', 'ISC License', 'GNU GPLv3', 'MIT License' ]
    },
    {
       type: 'input',
