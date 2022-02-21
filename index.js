@@ -1,6 +1,5 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-// const githuburl = "https://github.com";
 const generateMarkdown = require('./utils/generateMarkdown');
 const fs = require('fs');
 
@@ -95,8 +94,6 @@ const questions = [
       type: 'checkbox',
       name: 'licenses',
       message: 'What is the applicable license for your project? ',
-      // choices: ['Apache License 2.0', 'Boost Software License 1.0', 'Creative Commons Attribution 4.0',
-      //           'ISC License', 'MIT License', 'GNU AGPLv3', 'GNU LGPLv3', 'GNU GPLv3', 'GNU GPLv2']
       choices: ['Apache License 2.0', 'ISC License', 'GNU GPLv3', 'MIT License' ]
    },
    {
@@ -156,9 +153,14 @@ const promptSectionEssentials = () => {
      
 }
 
-
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+   var fileLoc = "dist/";
+   fs.writeFile(fileLoc + fileName, data, err => {
+      if (err) throw new Error(err);
+      console.log('File created! ');
+    });
+}
 
 // TODO: Create a function to initialize app
 function init() {
@@ -167,11 +169,8 @@ function init() {
     console.log(readmeData);
      
     const pageREADME = generateMarkdown(readmeData);
-    console.log(pageREADME);
-    fs.writeFile('dist/README.md', pageREADME, err => {
-      if (err) throw new Error(err);
-      console.log('File created! ');
-    });
+   //  console.log(pageREADME);
+    writeToFile("README.md", pageREADME);
   })
 }
 

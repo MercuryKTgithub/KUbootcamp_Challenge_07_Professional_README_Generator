@@ -5,6 +5,7 @@ const OPEN_SQUARED_BRT = '[';
 const CLOSE_SQUARED_BRT = ']';
 const EXCLAIMATION = '!';
 const NEW_LINE = '\n';
+const HTML_NEW_LINE = '</br>';
 let softlicenses = [];
 const infoICSLicense = {
   terminology : "[License: ISC]",
@@ -112,23 +113,32 @@ function renderLicenseLink(license) {
 // function renderLicenseSection(license) {}
 const renderLicenseSection = license => {
   if(!license){
+    // console.log('--------section license 1-------');
+    // console.log(license);
     return '';
   }
-  console.log(license);
+  // console.log('--------section license 2-------');
+  // console.log(license);
   let bulletedResult = '';
   let licenseArr = [];
   var licenseString = `${license.join(', ')}` ;
   licenseArr = licenseString.split(",");
   for (var j = 0; j < licenseArr.length; j++)
   {
-    bulletedResult += "* " + licenseArr[j].trim()+ "\n";
+    if(licenseArr[j].trim() != '')
+    {
+      bulletedResult += "* " + licenseArr[j].trim() + NEW_LINE;
+    }
+    else{
+      bulletedResult += HTML_NEW_LINE;
+    }
   }
-  return bulletedResult;
- 
+  return bulletedResult; 
 }
 
-// TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
+  let credits = data.contributing;
+  let italicCreditInfo = "_" + credits.trim() + "_";
   return `# ${data.title} ` + 
   `${renderLicenseBadge(data.licenses)}` +
   `\n---` +
@@ -150,13 +160,44 @@ function generateMarkdown(data) {
   `\n### Installation\n#### ${data.installation} 
   \n### Usage\n#### ${data.usage} 
   \n### License\n${renderLicenseSection(data.licenses)}
-  \n### Contributing\n${data.contributing} 
-  \n### Tests\n#### ${data.testing}  
+  \n### Contributing\n` + italicCreditInfo +
+  `\n### Tests\n#### ${data.testing}  
   \n### Questions\n* Please contact the developer with additional questions at ${renderEmailForQuestions(data.email)} 
                  \n* More info about the developer: ${renderGitHubURLForQuestions(data.username)} 
 
 `;
 }
+
+// TODO: Create a function to generate markdown for README
+// // function generateMarkdown(data) {
+// //   return `# ${data.title} ` + 
+// //   `${renderLicenseBadge(data.licenses)}` +
+// //   `\n---` +
+// //   `\n###### Repository: ${data.repository} ` + 
+// //   `\n---` +
+// //   `\n`  +
+// //   `\n## Description\n#### ${data.description}` +
+// //   `<br>`  +
+// //   `\n## Table Of Content\n#### 
+// //   \n### 1. [` + "Installation" + `](#installation) 
+// //   \n### 2. [` + "Usage" + `](#usage) 
+// //   \n### 3. [` + "Contributing" + `](#contributing) 
+// //   \n### 4. [` + "License" + `](#license) 
+// //   \n### 5. [` + "Tests" + `](#tests) 
+// //   \n### 6. [` + "Questions" + `](#questions) `
+// //   
+// //   +
+// //   `<br><br>` +
+// //   `\n### Installation\n#### ${data.installation} 
+// //   \n### Usage\n#### ${data.usage} 
+// //   \n### License\n${renderLicenseSection(data.licenses)}
+// //   \n### Contributing\n${data.contributing} 
+// //   \n### Tests\n#### ${data.testing}  
+// //   \n### Questions\n* Please contact the developer with additional questions at ${renderEmailForQuestions(data.email)} 
+// //                  \n* More info about the developer: ${renderGitHubURLForQuestions(data.username)} 
+// // 
+// // `;
+// // }
 
 const renderEmailForQuestions = email => {
   if(!email){
@@ -172,6 +213,5 @@ const renderGitHubURLForQuestions = username => {
   authorProfileURL = githubDomainURL + username
   return authorProfileURL;
 }
-
 
 module.exports = generateMarkdown;
